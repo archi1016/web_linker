@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="theme.css">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>HLS</title>
+</head><body bgcolor="#000000">
+<div id="player">
+	<object id="LIVEPLAYER" type="application/x-shockwave-flash" src="flashlsChromeless.swf?inline=1">
+		<param name="movie"  value="flashlsChromeless.swf?inline=1" />
+		<param name="quality" value="autohigh">
+		<param name="swliveconnect" value="true">
+		<param name="allowScriptAccess" value="sameDomain">
+		<param name="bgcolor" value="#000000">
+		<param name="allowFullScreen" value="false">
+		<param name="wmode" value="window">
+	</object>
+</div>
+<div id="mask">
+	<div id="toolbar"><ul>
+		<li id="pause-and-play"><a href="#" onclick="return false;"></a></li>
+		<li id="volume"><input type="range" value="20" min="0" max="100" step="4"></li>
+		<li id="fullscreen"><a href="#" onclick="return change_fullscreen();">全螢幕</a></li>
+	</ul></div>
+</div>
+<div id="buffering">緩衝中</div>
+
+<script>
+var PYR = null;
+var TLB = null;
+var PAP = null;
+var VOL = null;
+var BUF = null;
+var FSS = null;
+var VideoWidth = 0;
+var VideoHeight = 0;
+var ToolbarDsiaplaySecondCount = 0;
+var HideToolbarTimer = null;
+
+
+var flashlsEvents = {
+	onManifest: function (instanceId, duration) {
+		PYR.playerPlay(-1);
+	}
+	,onVideoSize: function (instanceId, width, height) {
+		VideoWidth = width;
+		VideoHeight = height;
+		change_monitor_size();
+	}
+	,onState: function (instanceId, newState) {
+		var a = PAP.firstChild;
+		
+		BUF.className = 'hide';
+		switch (newState) {
+			case 'PLAYING':
+				a.textContent = '暫停';
+				a.onclick = function () {
+					PYR.playerPause();
+					return false;
+				}
+				break;
+			case 'PLAYING_BUFFERING':
+				BUF.className = '';
+				a.onclick = function () {
+					return false;
+				}
+				break;
+			default:
+				a.textContent = '播放';
+				a.onclick = function () {
+					PYR.playerResume();
+					return false;
+				}
+				break;
+		}
+	}
+};
+
+function change_player_volume() {
+	PYR.playerVolume(VOL.value);
+}
+
+function change_fullscreen() {
+	if (document.webkitIsFullScreen) {
+		FSS.textContent = '全螢幕';
+		document.webkitCancelFullScreen();
+	} else {
+		FSS.textContent = '回視窗';
+		document.body.webkitRequestFullScreen();
+	}
+	
+	return false;
+}
+
+function change_monitor_size() {
+	if (0 == VideoWidth) return;
+	if (0 == VideoHeight) return;
+}
+
+function mask_mouse_move() {
+	if ('hide' == TLB.className) {
+		TLB.className = '';
+		document.body.style.cursor = 'default';
+
+		HideToolbarTimer = setInterval(count_toolbar_display_second, 1000);
+	} else {
+		ToolbarDsiaplaySecondCount = 0;
+	}
+}
+
+function count_toolbar_display_second() {
+	ToolbarDsiaplaySecondCount++;
+	if (ToolbarDsiaplaySecondCount >= 3) {
+		clearInterval(HideToolbarTimer);
+		HideToolbarTimer = null;
+		ToolbarDsiaplaySecondCount = 0;
+		TLB.className = 'hide';
+		document.body.style.cursor = 'none';
+	}
+}
+
+function to_load() {
+	var u = decodeURIComponent(location.search);
+	var f;
+	
+	if ('' == u) {
+		alert('Error !');
+		return;
+	}
+	
+	PYR = document.getElementById('LIVEPLAYER');
+	TLB = document.getElementById('toolbar');
+	PAP = document.getElementById('pause-and-play');
+	VOL = document.getElementById('volume').firstChild;
+	BUF = document.getElementById('buffering');
+	FSS = document.getElementById('fullscreen').firstChild;
+	
+	u = u.replace('?', '');
+	f = u.split('|');
+	document.title = f[0];
+	PYR.playerLoad(f[1]);
+	
+	change_player_volume();
+	VOL.onchange = change_player_volume;
+	
+	TLB.parentNode.onmousemove = mask_mouse_move;
+	HideToolbarTimer = setInterval(count_toolbar_display_second, 1000);
+	
+	document.body.onresize = function () {
+		change_monitor_size();
+	};
+}
+
+setTimeout(to_load, 1000);
+</script>
+</body></html>

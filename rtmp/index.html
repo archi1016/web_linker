@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+<meta charset="utf-8">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="http://releases.flowplayer.org/5.5.2/skin/minimalist.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://releases.flowplayer.org/5.5.2/flowplayer.min.js"></script>
+<style>
+body {
+	margin : 0;
+	padding : 0;
+}
+</style>
+<title>RTMP</title>
+</head><body bgcolor="#000000">
+<div id="player"></div>
+
+<script>
+var vApi = null;
+
+$(function() {
+	var u = decodeURIComponent(location.search);
+	var f;
+	
+	if ('' == u) {
+		alert('Error !');
+		return;
+	}
+	
+	u = u.replace('?', '');
+	f = u.split('|');
+	document.title = f[0];
+	
+	$("#player").flowplayer({
+		engine: 'flash'
+		,flashfit: true
+		,live: true
+		,volume: 0.2
+		,tooltip: false
+		,playlist: [
+			[
+				,{ flash: f[1] }
+			]
+		]
+	}).one('ready', function () {
+		setTimeout(to_play, 1000);
+	});
+});
+
+function to_play() {
+	vApi = flowplayer();
+	
+	vApi.resume();
+	//console.log(vApi.video.width+'x'+vApi.video.height);
+}
+
+</script>
+</body></html>

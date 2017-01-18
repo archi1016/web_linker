@@ -1,0 +1,165 @@
+body {
+	margin : 0;
+	padding : 0;
+	font-size : 14pt;
+	font-family : 微軟正黑體, sans-serif;
+	color : #000000;
+	background-color : #E0E0E0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin : 0;
+	padding : 0;
+	font-weight : normal;
+}
+
+a {
+	display : inline-block;
+	text-decoration : none;
+}
+
+span { 
+	display : inline-block;
+}
+
+ul, ol {
+	margin : 0;
+	padding : 0;
+	list-style-type : none;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table th {
+	text-align : left;
+	font-weight : normal;
+}
+
+/* ========================================================================== */
+
+div.hide { 
+	display : none;
+}
+
+/* ========================================================================== */
+
+div#header {
+	position : fixed;
+	z-index : 99;
+	left : 0;
+	top : 0;
+	width : 100%;
+	height : 90px;
+	color : #ffffff;
+	background-color : #558B2F;
+	box-shadow : 0 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+div#header > div > div {
+	margin : 0 auto;
+	width : 960px;
+}
+
+div#header div.title h1 {
+	padding-left : 48px;
+	line-height : 48px;
+	font-size : 20pt;
+	background-repeat : no-repeat;
+	background-position : 8px center;
+	background-image : url(logo.png);
+}
+
+/* ========================================================================== */
+
+div#section-tab {
+}
+
+div#section-tab:after {
+	clear : both;
+	content : "";
+}
+
+div#section-tab li {
+	float : left;
+}
+
+div#section-tab li a {
+	display : block;
+	padding : 0 15px;
+	line-height : 42px;
+	color : #C5E1A5;
+}
+
+div#section-tab li a:hover {
+	color : #ffffff;
+	background-color : #7CB342;
+}
+
+div#section-tab li.focus a {
+	padding-top : 4px;
+	line-height : 34px;
+	border-style : solid;
+	border-width : 0 0 4px 0;
+	border-color : #FFD54F;
+}
+
+/* ========================================================================== */
+
+div#content {
+	margin : 0 auto;
+	width : 980px;
+	padding-top : 120px;
+}
+
+div#content h2 {
+	padding-left : 15px;
+	line-height : 50px;
+	font-size : 18pt;
+	color : #ffffff;
+	background-color : #616161;
+}
+
+div#content ul > li {
+	float : left;
+	margin : 0 16px 40px 10px;
+	width : 300px;
+	height : 425px;
+	background-color : #ffffff;
+	border-radius : 3px;
+	box-shadow : 1px 3px 5px rgba(0, 0, 0, 0.4);
+	overflow : hidden;
+}
+
+div#content ol {
+	margin-top : 10px;
+}
+
+div#content ol > li {
+	line-height : 35px;
+}
+
+div#content ol > li > span {
+	padding-right : 10px;
+	width : 40px;
+	text-align : right;
+	color : #BDBDBD;
+}
+
+div#content a {
+	color : #0288D1;
+}
+
+div#content a:visited {
+	color : #512DA8;
+}
+
+div#content a:hover {
+	position : relative;
+	left : 2px;
+	top : 2px;
+	color : #D81B60;
+}
+
+/* ========================================================================== */
